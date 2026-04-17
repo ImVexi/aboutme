@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jayden — About Me</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-secondary: #1c2128;
+      --border: #30363d;
+      --border-light: #21262d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --text-faint: #484f58;
+      --accent: #3fb950;
+      --accent-bg: #0d2b14;
+      --accent-text: #56d364;
+      --teal: #39d6c0;
+      --teal-bg: #0d2929;
+      --teal-text: #56d6c4;
+      --blue: #58a6ff;
+      --blue-bg: #0d2149;
+      --blue-text: #79b8ff;
+      --mono: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.25rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .card-header:hover { background: var(--bg-secondary); }
+
+    .card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prompt {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .toggle-btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
+      background: none;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .toggle-btn:hover {
+      background: var(--bg-secondary);
+      color: var(--text);
+    }
+
+    .card-body { padding: 0 1.25rem 1.25rem; }
+
+    .tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      border: 1px solid var(--border-light);
+      margin: 2px;
+    }
+
+    .tag.green {
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      border-color: #1a4a24;
+    }
+
+    .tag.blue {
+      background: var(--blue-bg);
+      color: var(--blue-text);
+      border-color: #1a3a6e;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border-light);
+      margin: 0.75rem 0;
+    }
+
+    .proj-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .proj-card:last-child { margin-bottom: 0; }
+
+    .proj-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .proj-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .proj-name {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .proj-detail {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-light);
+      line-height: 1.7;
+      display: none;
+    }
+
+    .comment {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-faint);
+      margin: 0 0 8px;
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: var(--blue-bg);
+      border: 1px solid #1a3a6e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--blue-text);
+      flex-shrink: 0;
+    }
+
+    .edu-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .edu-title {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .edu-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .scanline {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-faint);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .scanline span { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <p class="scanline">// <span>portfolio</span> — public profile v1.0</p>
+
+    <div class="card">
+      <div style="padding: 1.5rem 1.25rem;">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 1rem;">
+          <div class="avatar">J</div>
+          <div>
+            <p style="font-weight: 500; font-size: 20px; margin: 0;">Jayden</p>
+            <p style="font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">computer-network-specialist@student</p>
+          </div>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.75; margin-bottom: 1rem;">Reliable young professional dedicated to exceptional results for customers and businesses. Currently studying at college and seeking an apprenticeship in cyber security and quality assurance.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleSection('projects')">
+        <div class="card-header-left">
+          <span class="prompt">&gt;_</span>
+          <span class="section-title">homelab projects</span>
+        </div>
+        <button class="toggle-btn" id="toggle-projects">[ − ]</button>
+      </div>
+      <div class="card-body" id="section-projects">
+
+        <div class="proj-card">
+          <div class="proj-header">
+            <div class="proj-header-left">
+              <span class="proj-name">Proxmox Virtualization</span>
+              <span class="tag">hypervisor</span>
+              <span class="tag">bare metal</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleProject('proxmox', this)">details</button>
+          </div>
+          <div id="detail-proxmox" class="proj-detail">Runs a Proxmox VE hypervisor as the backbone of the homelab — manages all virtual machines and containers on the home network, enabling efficient resource allocation and full isolation between environments.</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-header">
+            <div class="proj-header-left">
+              <span class="proj-name">Pi-hole Ad Blocker</span>
+              <span class="tag">DNS</span>
+              <span class="tag">privacy</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleProject('pihole', this)">details</button>
+          </div>
+          <div id="detail-pihole" class="proj-detail">Deployed a Pi-hole instance providing network-wide DNS-level ad blocking — no per-device setup needed. Reduces bandwidth usage, speeds up browsing, and protects every device on the home network.</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-header">
+            <div class="proj-header-left">
+              <span class="proj-name">Ubuntu VM</span>
+              <span class="tag">Linux</span>
+              <span class="tag">home automation</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleProject('ubuntu', this)">details</button>
+          </div>
+          <div id="detail-ubuntu" class="proj-detail">Dedicated Ubuntu VM running game servers alongside Home Assistant — an open-source home automation platform. Keeps services always-on and separate from daily-use machines, with full control over smart home integrations.</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-header">
+            <div class="proj-header-left">
+              <span class="proj-name">Windows VM</span>
+              <span class="tag">remote gaming</span>
+              <span class="tag">media</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleProject('windows', this)">details</button>
+          </div>
+          <div id="detail-windows" class="proj-detail">Set up a Windows VM for remote desktop gaming and centralized media server hosting. Stream games from any device on the network while the server handles all the compute — no dedicated gaming rig required.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleSection('skills')">
+        <div class="card-header-left">
+          <span class="prompt">&gt;_</span>
+          <span class="section-title">skills</span>
+        </div>
+        <button class="toggle-btn" id="toggle-skills">[ − ]</button>
+      </div>
+      <div class="card-body" id="section-skills">
+        <p class="comment">// hardware</p>
+        <div style="margin-bottom: 0.75rem;">
+          <span class="tag green">PC building</span>
+          <span class="tag green">performance system assembly</span>
+          <span class="tag green">home networking</span>
+          <span class="tag green">server setup</span>
+        </div>
+        <hr class="divider">
+        <p class="comment">// software</p>
+        <div style="margin-bottom: 0.75rem;">
+          <span class="tag">Microsoft Word</span>
+          <span class="tag">Excel</span>
+          <span class="tag">PowerPoint</span>
+          <span class="tag">Access</span>
+        </div>
+        <hr class="divider">
+        <p class="comment">// focus areas</p>
+        <div>
+          <span class="tag blue">cyber security</span>
+          <span class="tag blue">quality assurance</span>
+          <span class="tag blue">virtualization</span>
+          <span class="tag blue">home automation</span>
+          <span class="tag blue">networking</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleSection('education')">
+        <div class="card-header-left">
+          <span class="prompt">&gt;_</span>
+          <span class="section-title">education</span>
+        </div>
+        <button class="toggle-btn" id="toggle-education">[ − ]</button>
+      </div>
+      <div class="card-body" id="section-education">
+        <div class="edu-row" style="margin-bottom: 4px;">
+          <div>
+            <p class="edu-title">College</p>
+            <p class="edu-sub">Computer Networking Specialist</p>
+          </div>
+          <span class="tag green">2025 – Present</span>
+        </div>
+        <hr class="divider">
+        <div class="edu-row">
+          <div>
+            <p class="edu-title">High School</p>
+            <p class="edu-sub">Diploma</p>
+          </div>
+          <span class="tag">2021 – 2025</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      const body = document.getElementById('section-' + id);
+      const btn = document.getElementById('toggle-' + id);
+      const hidden = body.style.display === 'none';
+      body.style.display = hidden ? 'block' : 'none';
+      btn.textContent = hidden ? '[ − ]' : '[ + ]';
+    }
+
+    function toggleProject(id, btn) {
+      const detail = document.getElementById('detail-' + id);
+      const hidden = detail.style.display === 'none';
+      detail.style.display = hidden ? 'block' : 'none';
+      btn.textContent = hidden ? 'hide' : 'details';
+    }
+  </script>
+</body>
+</html>
