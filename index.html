@@ -8,6 +8,51 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
+      color-scheme: light dark;
+      --bg: #f6f3ff;
+      --bg-card: #ffffff;
+      --bg-secondary: #fcfbff;
+      --border: #ddd6fe;
+      --border-light: #ddd6fe;
+      --text: #221b32;
+      --text-muted: #6b6480;
+      --text-faint: #8a84a0;
+      --accent: #7c3aed;
+      --accent-bg: rgba(124, 58, 237, 0.12);
+      --accent-text: #7c3aed;
+      --blue: #9333ea;
+      --blue-bg: rgba(147, 51, 234, 0.1);
+      --blue-text: #6b21a8;
+      --shadow: 0 18px 50px rgba(76, 29, 149, 0.08);
+      --bg-glow-a: rgba(168, 85, 247, 0.14);
+      --bg-glow-b: rgba(124, 58, 237, 0.08);
+      --mono: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0a0a0f;
+        --bg-card: #12121a;
+        --bg-secondary: #181824;
+        --border: #2a2a3a;
+        --border-light: #2a2a3a;
+        --text: #f4f4f5;
+        --text-muted: #a1a1b3;
+        --text-faint: #7f7f92;
+        --accent: #a855f7;
+        --accent-bg: rgba(168, 85, 247, 0.14);
+        --accent-text: #d8b4fe;
+        --blue: #c084fc;
+        --blue-bg: rgba(192, 132, 252, 0.12);
+        --blue-text: #e9d5ff;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+        --bg-glow-a: rgba(168, 85, 247, 0.18);
+        --bg-glow-b: rgba(124, 58, 237, 0.12);
+      }
+    }
+
+    :root[data-theme="dark"] {
       --bg: #0a0a0f;
       --bg-card: #12121a;
       --bg-secondary: #181824;
@@ -23,14 +68,14 @@
       --blue-bg: rgba(192, 132, 252, 0.12);
       --blue-text: #e9d5ff;
       --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
-      --mono: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --bg-glow-a: rgba(168, 85, 247, 0.18);
+      --bg-glow-b: rgba(124, 58, 237, 0.12);
     }
 
     body {
       background:
-        radial-gradient(circle at top left, rgba(168, 85, 247, 0.18), transparent 28%),
-        radial-gradient(circle at top right, rgba(124, 58, 237, 0.12), transparent 24%),
+        radial-gradient(circle at top left, var(--bg-glow-a), transparent 28%),
+        radial-gradient(circle at top right, var(--bg-glow-b), transparent 24%),
         var(--bg);
       color: var(--text);
       font-family: var(--sans);
@@ -41,6 +86,14 @@
     .container {
       max-width: 680px;
       margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 1rem;
     }
 
     .card {
@@ -97,6 +150,25 @@
     .toggle-btn:hover {
       background: var(--bg-secondary);
       color: var(--text);
+    }
+
+    .theme-toggle {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .theme-toggle:hover {
+      background: var(--bg-secondary);
+      border-color: var(--accent);
+      transform: translateY(-1px);
     }
 
     .card-body { padding: 0 1.25rem 1.25rem; }
@@ -217,17 +289,26 @@
       font-family: var(--mono);
       font-size: 11px;
       color: var(--text-faint);
-      margin-bottom: 1.5rem;
       letter-spacing: 0.05em;
     }
 
     .scanline span { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <p class="scanline">// <span>portfolio</span> - public profile v1.0</p>
+    <div class="topbar">
+      <p class="scanline">// <span>portfolio</span> - public profile v1.0</p>
+      <button class="theme-toggle" id="themeToggle" type="button">Theme: Auto</button>
+    </div>
 
     <div class="card">
       <div style="padding: 1.5rem 1.25rem;">
@@ -419,6 +500,40 @@
   </div>
 
   <script>
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function updateThemeButton(theme) {
+      const activeTheme = theme || localStorage.getItem('theme-preference') || 'auto';
+      themeToggle.textContent = `Theme: ${activeTheme.charAt(0).toUpperCase()}${activeTheme.slice(1)}`;
+    }
+
+    function applyTheme(theme) {
+      if (theme === 'auto') {
+        root.removeAttribute('data-theme');
+      } else {
+        root.setAttribute('data-theme', theme);
+      }
+      localStorage.setItem('theme-preference', theme);
+      updateThemeButton(theme);
+    }
+
+    const savedTheme = localStorage.getItem('theme-preference') || 'auto';
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const current = localStorage.getItem('theme-preference') || 'auto';
+      const next = current === 'auto' ? 'dark' : current === 'dark' ? 'light' : 'auto';
+      applyTheme(next);
+    });
+
+    mediaQuery.addEventListener('change', () => {
+      if ((localStorage.getItem('theme-preference') || 'auto') === 'auto') {
+        updateThemeButton('auto');
+      }
+    });
+
     function toggleSection(id) {
       const body = document.getElementById('section-' + id);
       const btn = document.getElementById('toggle-' + id);
