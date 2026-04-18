@@ -100,7 +100,7 @@
     }
 
     .container {
-      max-width: 680px;
+      max-width: 1040px;
       margin: 0 auto;
     }
 
@@ -189,6 +189,16 @@
 
     .card-body { padding: 0 1.25rem 1.25rem; }
 
+    .projects-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .support-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
     .tag {
       display: inline-block;
       font-family: var(--mono);
@@ -261,10 +271,19 @@
     }
 
     .comment {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text-faint);
-      margin: 0 0 8px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-text);
+      background: var(--accent-bg);
+      border: 1px solid rgba(124, 58, 237, 0.18);
+      border-radius: 999px;
+      padding: 0.28rem 0.65rem;
+      margin: 0 0 10px;
     }
 
     .avatar {
@@ -297,8 +316,35 @@
     }
 
     .edu-sub {
-      font-size: 13px;
+      font-family: var(--mono);
+      font-size: 12px;
       color: var(--text-muted);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .action-link {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      background: var(--bg-secondary);
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+    }
+
+    .action-link:hover {
+      background: var(--bg-card);
+      border-color: var(--accent);
+      transform: translateY(-1px);
     }
 
     .scanline {
@@ -310,10 +356,33 @@
 
     .scanline span { color: var(--accent); }
 
+    @media (min-width: 760px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .support-grid {
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        align-items: start;
+      }
+
+      .support-grid > .card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
     @media (max-width: 640px) {
       .topbar {
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      .card-header,
+      .card-body,
+      .card > div[style*="padding: 1.5rem 1.25rem"],
+      .card > div[style*="padding: 1.25rem; text-align: center;"] {
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
     }
   </style>
@@ -347,7 +416,7 @@
         </div>
         <button class="toggle-btn" id="toggle-projects">[ - ]</button>
       </div>
-      <div class="card-body" id="section-projects">
+      <div class="card-body projects-grid" id="section-projects">
 
         <div class="proj-card">
           <div class="proj-header">
@@ -431,92 +500,94 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header" onclick="toggleSection('skills')">
-        <div class="card-header-left">
-          <span class="prompt">&gt;_</span>
-          <span class="section-title">skills</span>
-        </div>
-        <button class="toggle-btn" id="toggle-skills">[ - ]</button>
-      </div>
-      <div class="card-body" id="section-skills">
-        <p class="comment">// practical skills</p>
-        <div style="margin-bottom: 0.75rem;">
-          <span class="tag green">PC assembly</span>
-          <span class="tag green">PC repair</span>
-          <span class="tag green">troubleshooting</span>
-          <span class="tag green">home networking</span>
-          <span class="tag green">server setup</span>
-        </div>
-        <hr class="divider">
-        <p class="comment">// systems and software</p>
-        <div style="margin-bottom: 0.75rem;">
-          <span class="tag">Linux</span>
-          <span class="tag">SSH</span>
-          <span class="tag">virtualization</span>
-          <span class="tag">Microsoft Word</span>
-          <span class="tag">Excel</span>
-          <span class="tag">PowerPoint</span>
-          <span class="tag">Access</span>
-        </div>
-        <hr class="divider">
-        <p class="comment">// focus areas</p>
-        <div>
-          <span class="tag blue">cyber security</span>
-          <span class="tag blue">quality assurance</span>
-          <span class="tag blue">virtualization</span>
-          <span class="tag blue">home automation</span>
-          <span class="tag blue">networking</span>
-          <span class="tag blue">tech support</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header" onclick="toggleSection('education')">
-        <div class="card-header-left">
-          <span class="prompt">&gt;_</span>
-          <span class="section-title">education</span>
-        </div>
-        <button class="toggle-btn" id="toggle-education">[ - ]</button>
-      </div>
-      <div class="card-body" id="section-education">
-        <div class="edu-row" style="margin-bottom: 4px;">
-          <div>
-            <p class="edu-title">College</p>
-            <p class="edu-sub">Computer Networking Specialist</p>
+    <div class="support-grid">
+      <div class="card">
+        <div class="card-header" onclick="toggleSection('skills')">
+          <div class="card-header-left">
+            <span class="prompt">&gt;_</span>
+            <span class="section-title">skills</span>
           </div>
-          <span class="tag green">2025 - Present</span>
+          <button class="toggle-btn" id="toggle-skills">[ - ]</button>
         </div>
-        <hr class="divider">
-        <div class="edu-row">
-          <div>
-            <p class="edu-title">High School</p>
-            <p class="edu-sub">Diploma</p>
+        <div class="card-body" id="section-skills">
+          <p class="comment">practical skills</p>
+          <div style="margin-bottom: 0.75rem;">
+            <span class="tag green">PC assembly</span>
+            <span class="tag green">PC repair</span>
+            <span class="tag green">troubleshooting</span>
+            <span class="tag green">home networking</span>
+            <span class="tag green">server setup</span>
           </div>
-          <span class="tag">2021 - 2025</span>
+          <hr class="divider">
+          <p class="comment">systems and software</p>
+          <div style="margin-bottom: 0.75rem;">
+            <span class="tag">Linux</span>
+            <span class="tag">SSH</span>
+            <span class="tag">virtualization</span>
+            <span class="tag">Microsoft Word</span>
+            <span class="tag">Excel</span>
+            <span class="tag">PowerPoint</span>
+            <span class="tag">Access</span>
+          </div>
+          <hr class="divider">
+          <p class="comment">focus areas</p>
+          <div>
+            <span class="tag blue">cyber security</span>
+            <span class="tag blue">quality assurance</span>
+            <span class="tag blue">virtualization</span>
+            <span class="tag blue">home automation</span>
+            <span class="tag blue">networking</span>
+            <span class="tag blue">tech support</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="card">
-      <div style="padding: 1.25rem; text-align: center;">
-        <p class="comment" style="margin-bottom: 0.9rem;">// more tech</p>
-        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
-          <a
-            href="https://pc.vextroboomin.xyz"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display: inline-block; font-family: var(--mono); font-size: 13px; color: var(--text); text-decoration: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; background: var(--bg-secondary); transition: background 0.15s, color 0.15s;"
-          >
-            visit my PC specs site
-          </a>
-          <a
-            href="mailto:me@vextroboomin.xyz"
-            style="display: inline-block; font-family: var(--mono); font-size: 13px; color: var(--text); text-decoration: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; background: var(--bg-secondary); transition: background 0.15s, color 0.15s;"
-          >
-            contact me
-          </a>
+      <div class="card">
+        <div class="card-header" onclick="toggleSection('education')">
+          <div class="card-header-left">
+            <span class="prompt">&gt;_</span>
+            <span class="section-title">education</span>
+          </div>
+          <button class="toggle-btn" id="toggle-education">[ - ]</button>
+        </div>
+        <div class="card-body" id="section-education">
+          <div class="edu-row" style="margin-bottom: 4px;">
+            <div>
+              <p class="edu-title">College</p>
+              <p class="edu-sub">computer network specialist student</p>
+            </div>
+            <span class="tag green">2025 - Present</span>
+          </div>
+          <hr class="divider">
+          <div class="edu-row">
+            <div>
+              <p class="edu-title">High School</p>
+              <p class="edu-sub">high school diploma</p>
+            </div>
+            <span class="tag">2021 - 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="padding: 1.25rem; text-align: center;">
+          <p class="comment" style="margin-bottom: 0.9rem;">more tech</p>
+          <div class="action-buttons">
+            <a
+              class="action-link"
+              href="https://pc.vextroboomin.xyz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              visit my PC specs site
+            </a>
+            <a
+              class="action-link"
+              href="mailto:me@vextroboomin.xyz"
+            >
+              contact me
+            </a>
+          </div>
         </div>
       </div>
     </div>
