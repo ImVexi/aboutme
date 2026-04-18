@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jayden — About Me</title>
+  <title>Jayden - About Me</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -19,9 +19,6 @@
       --accent: #3fb950;
       --accent-bg: #0d2b14;
       --accent-text: #56d364;
-      --teal: #39d6c0;
-      --teal-bg: #0d2929;
-      --teal-text: #56d6c4;
       --blue: #58a6ff;
       --blue-bg: #0d2149;
       --blue-text: #79b8ff;
@@ -225,7 +222,7 @@
 <body>
   <div class="container">
 
-    <p class="scanline">// <span>portfolio</span> — public profile v1.0</p>
+    <p class="scanline">// <span>portfolio</span> - public profile v1.0</p>
 
     <div class="card">
       <div style="padding: 1.5rem 1.25rem;">
@@ -233,7 +230,7 @@
           <div class="avatar">J</div>
           <div>
             <p style="font-weight: 500; font-size: 20px; margin: 0;">Jayden</p>
-            <p style="font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">computer-network-specialist@student</p>
+            <p style="font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 4px 0 0;">computer network specialist student</p>
           </div>
         </div>
         <p style="font-size: 14px; color: var(--text-muted); line-height: 1.75; margin-bottom: 1rem;">Reliable young professional dedicated to exceptional results for customers and businesses. Currently studying at college and seeking an apprenticeship in cyber security and quality assurance.</p>
@@ -246,44 +243,48 @@
           <span class="prompt">&gt;_</span>
           <span class="section-title">homelab projects</span>
         </div>
-        <button class="toggle-btn" id="toggle-projects">[ − ]</button>
+        <button class="toggle-btn" id="toggle-projects">[ - ]</button>
       </div>
       <div class="card-body" id="section-projects">
 
         <div class="proj-card">
           <div class="proj-header">
             <div class="proj-header-left">
-              <span class="proj-name">Proxmox Virtualization</span>
+              <span class="proj-name">UniFi Home Network</span>
+              <span class="tag">router</span>
+              <span class="tag">AP</span>
+              <span class="tag">switch</span>
+              <span class="tag">VLANs</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleProject('unifi', this)">hide</button>
+          </div>
+          <div id="detail-unifi" class="proj-detail" style="display: block;">Running a full UniFi stack with gateway, access point, and switch for tighter control than an ISP router provides. Configured VLANs to segment traffic and set up firewall rules and port forwarding using the same concepts found in professional network environments.</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-header">
+            <div class="proj-header-left">
+              <span class="proj-name">Proxmox</span>
               <span class="tag">hypervisor</span>
-              <span class="tag">bare metal</span>
+              <span class="tag">VMs</span>
+              <span class="tag">snapshots</span>
             </div>
-            <button class="toggle-btn" onclick="toggleProject('proxmox', this)">details</button>
+            <button class="toggle-btn" onclick="toggleProject('proxmox', this)">hide</button>
           </div>
-          <div id="detail-proxmox" class="proj-detail">Runs a Proxmox VE hypervisor as the backbone of the homelab — manages all virtual machines and containers on the home network, enabling efficient resource allocation and full isolation between environments.</div>
+          <div id="detail-proxmox" class="proj-detail" style="display: block;">Proxmox is the foundation of the homelab, hosting virtual machines and services while giving me hands-on experience with storage, networking, bridges, and snapshots. It is the platform I use to separate workloads cleanly and test changes with less risk.</div>
         </div>
 
         <div class="proj-card">
           <div class="proj-header">
             <div class="proj-header-left">
-              <span class="proj-name">Pi-hole Ad Blocker</span>
-              <span class="tag">DNS</span>
-              <span class="tag">privacy</span>
+              <span class="proj-name">TrueNAS - Central Storage</span>
+              <span class="tag">NAS</span>
+              <span class="tag">backups</span>
+              <span class="tag">storage pool</span>
             </div>
-            <button class="toggle-btn" onclick="toggleProject('pihole', this)">details</button>
+            <button class="toggle-btn" onclick="toggleProject('truenas', this)">hide</button>
           </div>
-          <div id="detail-pihole" class="proj-detail">Deployed a Pi-hole instance providing network-wide DNS-level ad blocking — no per-device setup needed. Reduces bandwidth usage, speeds up browsing, and protects every device on the home network.</div>
-        </div>
-
-        <div class="proj-card">
-          <div class="proj-header">
-            <div class="proj-header-left">
-              <span class="proj-name">Ubuntu VM</span>
-              <span class="tag">Linux</span>
-              <span class="tag">home automation</span>
-            </div>
-            <button class="toggle-btn" onclick="toggleProject('ubuntu', this)">details</button>
-          </div>
-          <div id="detail-ubuntu" class="proj-detail">Dedicated Ubuntu VM running game servers alongside Home Assistant — an open-source home automation platform. Keeps services always-on and separate from daily-use machines, with full control over smart home integrations.</div>
+          <div id="detail-truenas" class="proj-detail" style="display: block;">Dedicated NAS that gives devices on the network access to a shared storage pool. Used for remote backups and central file storage so data is managed in one place instead of being scattered across individual machines.</div>
         </div>
 
         <div class="proj-card">
@@ -291,11 +292,38 @@
             <div class="proj-header-left">
               <span class="proj-name">Windows VM</span>
               <span class="tag">remote gaming</span>
-              <span class="tag">media</span>
+              <span class="tag">sandbox</span>
+              <span class="tag">snapshots</span>
             </div>
-            <button class="toggle-btn" onclick="toggleProject('windows', this)">details</button>
+            <button class="toggle-btn" onclick="toggleProject('windows', this)">hide</button>
           </div>
-          <div id="detail-windows" class="proj-detail">Set up a Windows VM for remote desktop gaming and centralized media server hosting. Stream games from any device on the network while the server handles all the compute — no dedicated gaming rig required.</div>
+          <div id="detail-windows" class="proj-detail" style="display: block;">Used as a remote gaming node available anywhere on the network and as a safe sandbox for testing Windows features and software. Proxmox snapshots make rollbacks quick, which lowers the risk when experimenting.</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-header">
+            <div class="proj-header-left">
+              <span class="proj-name">Pi-hole Ad Blocker</span>
+              <span class="tag">DNS</span>
+              <span class="tag">monitoring</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleProject('pihole', this)">hide</button>
+          </div>
+          <div id="detail-pihole" class="proj-detail" style="display: block;">Network-wide DNS ad blocking monitored through query stats and logs to see what is being filtered across devices. It has been a practical way to learn how DNS traffic behaves and how central network services impact day-to-day use.</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-header">
+            <div class="proj-header-left">
+              <span class="proj-name">Linux Lab</span>
+              <span class="tag">Linux Mint</span>
+              <span class="tag">SSH</span>
+              <span class="tag">study</span>
+              <span class="tag">Jellyfin</span>
+            </div>
+            <button class="toggle-btn" onclick="toggleProject('linuxlab', this)">hide</button>
+          </div>
+          <div id="detail-linuxlab" class="proj-detail" style="display: block;">Built Linux Mint virtual machines as a dedicated space for studying and experimenting with Linux. I regularly use SSH to manage services and work in the terminal, and I have also used this environment to run and learn from services like Jellyfin, including media streaming and hardware-accelerated transcoding workflows.</div>
         </div>
 
       </div>
@@ -307,19 +335,23 @@
           <span class="prompt">&gt;_</span>
           <span class="section-title">skills</span>
         </div>
-        <button class="toggle-btn" id="toggle-skills">[ − ]</button>
+        <button class="toggle-btn" id="toggle-skills">[ - ]</button>
       </div>
       <div class="card-body" id="section-skills">
-        <p class="comment">// hardware</p>
+        <p class="comment">// practical skills</p>
         <div style="margin-bottom: 0.75rem;">
-          <span class="tag green">PC building</span>
-          <span class="tag green">performance system assembly</span>
+          <span class="tag green">PC assembly</span>
+          <span class="tag green">PC repair</span>
+          <span class="tag green">troubleshooting</span>
           <span class="tag green">home networking</span>
           <span class="tag green">server setup</span>
         </div>
         <hr class="divider">
-        <p class="comment">// software</p>
+        <p class="comment">// systems and software</p>
         <div style="margin-bottom: 0.75rem;">
+          <span class="tag">Linux</span>
+          <span class="tag">SSH</span>
+          <span class="tag">virtualization</span>
           <span class="tag">Microsoft Word</span>
           <span class="tag">Excel</span>
           <span class="tag">PowerPoint</span>
@@ -333,6 +365,7 @@
           <span class="tag blue">virtualization</span>
           <span class="tag blue">home automation</span>
           <span class="tag blue">networking</span>
+          <span class="tag blue">tech support</span>
         </div>
       </div>
     </div>
@@ -343,7 +376,7 @@
           <span class="prompt">&gt;_</span>
           <span class="section-title">education</span>
         </div>
-        <button class="toggle-btn" id="toggle-education">[ − ]</button>
+        <button class="toggle-btn" id="toggle-education">[ - ]</button>
       </div>
       <div class="card-body" id="section-education">
         <div class="edu-row" style="margin-bottom: 4px;">
@@ -351,7 +384,7 @@
             <p class="edu-title">College</p>
             <p class="edu-sub">Computer Networking Specialist</p>
           </div>
-          <span class="tag green">2025 – Present</span>
+          <span class="tag green">2025 - Present</span>
         </div>
         <hr class="divider">
         <div class="edu-row">
@@ -359,8 +392,22 @@
             <p class="edu-title">High School</p>
             <p class="edu-sub">Diploma</p>
           </div>
-          <span class="tag">2021 – 2025</span>
+          <span class="tag">2021 - 2025</span>
         </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="padding: 1.25rem; text-align: center;">
+        <p class="comment" style="margin-bottom: 0.9rem;">// more tech</p>
+        <a
+          href="https://pc.vextroboomin.xyz"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="display: inline-block; font-family: var(--mono); font-size: 13px; color: var(--text); text-decoration: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; background: var(--bg-secondary); transition: background 0.15s, color 0.15s;"
+        >
+          visit my PC specs site
+        </a>
       </div>
     </div>
 
@@ -372,7 +419,7 @@
       const btn = document.getElementById('toggle-' + id);
       const hidden = body.style.display === 'none';
       body.style.display = hidden ? 'block' : 'none';
-      btn.textContent = hidden ? '[ − ]' : '[ + ]';
+      btn.textContent = hidden ? '[ - ]' : '[ + ]';
     }
 
     function toggleProject(id, btn) {
