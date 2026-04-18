@@ -691,8 +691,6 @@
                 class="action-link"
                 href="https://pc.vextroboomin.xyz"
                 data-confirm-external="pc.vextroboomin.xyz"
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 visit my PC specs site
               </a>
@@ -731,7 +729,6 @@
     const redirectCancel = document.getElementById('redirectCancel');
     const redirectConfirm = document.getElementById('redirectConfirm');
     let pendingRedirectUrl = null;
-    let pendingRedirectTarget = '_self';
 
     function updateThemeButton(theme) {
       const activeTheme = theme || localStorage.getItem('theme-preference') || 'auto';
@@ -759,7 +756,6 @@
 
     function openRedirectModal(url, destination, target) {
       pendingRedirectUrl = url;
-      pendingRedirectTarget = target || '_self';
       redirectDestination.textContent = destination;
       redirectModal.classList.add('open');
       redirectModal.setAttribute('aria-hidden', 'false');
@@ -783,7 +779,7 @@
     redirectCancel.addEventListener('click', closeRedirectModal);
     redirectConfirm.addEventListener('click', () => {
       if (!pendingRedirectUrl) return;
-      window.open(pendingRedirectUrl, pendingRedirectTarget, 'noopener');
+      window.location.href = pendingRedirectUrl;
       closeRedirectModal();
     });
 
