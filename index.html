@@ -199,6 +199,12 @@
       gap: 1rem;
     }
 
+    .support-side {
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+    }
+
     .tag {
       display: inline-block;
       font-family: var(--mono);
@@ -328,6 +334,15 @@
       flex-wrap: wrap;
     }
 
+    .footer-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.9rem;
+      min-height: 120px;
+    }
+
     .action-link {
       display: inline-block;
       font-family: var(--mono);
@@ -364,10 +379,6 @@
       .support-grid {
         grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
         align-items: start;
-      }
-
-      .support-grid > .card:last-child {
-        grid-column: 1 / -1;
       }
     }
 
@@ -542,51 +553,55 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header" onclick="toggleSection('education')">
-          <div class="card-header-left">
-            <span class="prompt">&gt;_</span>
-            <span class="section-title">education</span>
-          </div>
-          <button class="toggle-btn" id="toggle-education">[ - ]</button>
-        </div>
-        <div class="card-body" id="section-education">
-          <div class="edu-row" style="margin-bottom: 4px;">
-            <div>
-              <p class="edu-title">College</p>
-              <p class="edu-sub">computer network specialist student</p>
+      <div class="support-side">
+        <div class="card">
+          <div class="card-header" onclick="toggleSection('education')">
+            <div class="card-header-left">
+              <span class="prompt">&gt;_</span>
+              <span class="section-title">education</span>
             </div>
-            <span class="tag green">2025 - Present</span>
+            <button class="toggle-btn" id="toggle-education">[ - ]</button>
           </div>
-          <hr class="divider">
-          <div class="edu-row">
-            <div>
-              <p class="edu-title">High School</p>
-              <p class="edu-sub">high school diploma</p>
+          <div class="card-body" id="section-education">
+            <div class="edu-row" style="margin-bottom: 4px;">
+              <div>
+                <p class="edu-title">College</p>
+                <p class="edu-sub">computer network specialist student</p>
+              </div>
+              <span class="tag green">2025 - Present</span>
             </div>
-            <span class="tag">2021 - 2025</span>
+            <hr class="divider">
+            <div class="edu-row">
+              <div>
+                <p class="edu-title">High School</p>
+                <p class="edu-sub">high school diploma</p>
+              </div>
+              <span class="tag">2021 - 2025</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="card">
-        <div style="padding: 1.25rem; text-align: center;">
-          <p class="comment" style="margin-bottom: 0.9rem;">more tech</p>
-          <div class="action-buttons">
-            <a
-              class="action-link"
-              href="https://pc.vextroboomin.xyz"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              visit my PC specs site
-            </a>
-            <a
-              class="action-link"
-              href="mailto:me@vextroboomin.xyz"
-            >
-              contact me
-            </a>
+        <div class="card">
+          <div style="padding: 1.25rem; text-align: center;">
+            <div class="footer-actions">
+            <p class="comment" style="margin-bottom: 0;">more tech</p>
+            <div class="action-buttons">
+              <a
+                class="action-link"
+                href="https://pc.vextroboomin.xyz"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                visit my PC specs site
+              </a>
+              <a
+                class="action-link"
+                href="mailto:me@vextroboomin.xyz"
+              >
+                contact me
+              </a>
+            </div>
+            </div>
           </div>
         </div>
       </div>
