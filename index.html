@@ -205,6 +205,11 @@
       align-content: start;
     }
 
+    .footer-card-body {
+      padding: 1.25rem;
+      text-align: center;
+    }
+
     .tag {
       display: inline-block;
       font-family: var(--mono);
@@ -246,24 +251,31 @@
     .proj-card:last-child { margin-bottom: 0; }
 
     .proj-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 8px 12px;
     }
 
     .proj-header-left {
       display: flex;
       align-items: center;
-      gap: 8px;
+      align-content: flex-start;
+      gap: 6px;
       flex-wrap: wrap;
+      min-width: 0;
     }
 
     .proj-name {
       font-weight: 500;
       font-size: 14px;
       color: var(--text);
+    }
+
+    .proj-card .tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      margin: 1px;
     }
 
     .proj-detail {
@@ -363,6 +375,90 @@
       transform: translateY(-1px);
     }
 
+    .redirect-modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(8, 8, 14, 0.72);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+      z-index: 1000;
+    }
+
+    .redirect-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .redirect-panel {
+      width: min(100%, 420px);
+      background: linear-gradient(180deg, var(--bg-secondary), var(--bg-card));
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 1.2rem;
+      transform: translateY(8px) scale(0.98);
+      transition: transform 0.18s ease;
+    }
+
+    .redirect-modal.open .redirect-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    .redirect-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .redirect-copy {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .redirect-destination {
+      color: var(--accent-text);
+      word-break: break-word;
+    }
+
+    .redirect-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .redirect-btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.95rem;
+      background: var(--bg-secondary);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+
+    .redirect-btn:hover {
+      background: var(--bg-card);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .redirect-btn.primary {
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      border-color: rgba(124, 58, 237, 0.24);
+    }
+
     .scanline {
       font-family: var(--mono);
       font-size: 11px;
@@ -380,6 +476,10 @@
       .support-grid {
         grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
         align-items: start;
+      }
+
+      .support-side {
+        gap: 0.7rem;
       }
     }
 
@@ -583,13 +683,14 @@
         </div>
 
         <div class="card">
-          <div style="padding: 1.25rem; text-align: center;">
+          <div class="footer-card-body">
             <div class="footer-actions">
             <p class="comment" style="margin-bottom: 0;">more tech</p>
             <div class="action-buttons">
               <a
                 class="action-link"
                 href="https://pc.vextroboomin.xyz"
+                data-confirm-external="pc.vextroboomin.xyz"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -610,10 +711,27 @@
 
   </div>
 
+  <div class="redirect-modal" id="redirectModal" aria-hidden="true">
+    <div class="redirect-panel">
+      <p class="redirect-title">Leave this page?</p>
+      <p class="redirect-copy">You are about to open <span class="redirect-destination" id="redirectDestination"></span>.</p>
+      <div class="redirect-actions">
+        <button class="redirect-btn" id="redirectCancel" type="button">stay here</button>
+        <button class="redirect-btn primary" id="redirectConfirm" type="button">continue</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const root = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const redirectModal = document.getElementById('redirectModal');
+    const redirectDestination = document.getElementById('redirectDestination');
+    const redirectCancel = document.getElementById('redirectCancel');
+    const redirectConfirm = document.getElementById('redirectConfirm');
+    let pendingRedirectUrl = null;
+    let pendingRedirectTarget = '_self';
 
     function updateThemeButton(theme) {
       const activeTheme = theme || localStorage.getItem('theme-preference') || 'auto';
@@ -637,6 +755,42 @@
       const current = localStorage.getItem('theme-preference') || 'auto';
       const next = current === 'auto' ? 'dark' : current === 'dark' ? 'light' : 'auto';
       applyTheme(next);
+    });
+
+    function openRedirectModal(url, destination, target) {
+      pendingRedirectUrl = url;
+      pendingRedirectTarget = target || '_self';
+      redirectDestination.textContent = destination;
+      redirectModal.classList.add('open');
+      redirectModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRedirectModal() {
+      redirectModal.classList.remove('open');
+      redirectModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      pendingRedirectUrl = null;
+    }
+
+    document.querySelectorAll('[data-confirm-external]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        openRedirectModal(link.href, link.getAttribute('data-confirm-external'), link.target);
+      });
+    });
+
+    redirectCancel.addEventListener('click', closeRedirectModal);
+    redirectConfirm.addEventListener('click', () => {
+      if (!pendingRedirectUrl) return;
+      window.open(pendingRedirectUrl, pendingRedirectTarget, 'noopener');
+      closeRedirectModal();
+    });
+
+    redirectModal.addEventListener('click', (event) => {
+      if (event.target === redirectModal) {
+        closeRedirectModal();
+      }
     });
 
     mediaQuery.addEventListener('change', () => {
@@ -683,6 +837,12 @@
 
       setProjectVisibility(partnerCard, shouldExpand);
     }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && redirectModal.classList.contains('open')) {
+        closeRedirectModal();
+      }
+    });
   </script>
 </body>
 </html>
